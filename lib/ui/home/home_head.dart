@@ -43,7 +43,7 @@ class HomeHead extends StatelessWidget {
             height: 36.0,
             // color: Color(0xFFcccccc),
             padding: EdgeInsets.only(left: 20.0),
-            child: Icon(IconData(0xe636, fontFamily: 'iconfont')),
+            child: Icon(IconData(0xe636, fontFamily: 'iconfont'),),
             
           ),
           Container(

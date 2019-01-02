@@ -9,12 +9,16 @@ import "package:app/common/flutter_pulltorefresh/pull_to_refresh.dart";
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:app/libs/util.dart';
 import 'home_head.dart';
-import 'duleRun.dart';
+// import 'duleRun.dart';
+import 'home_swigger.dart';
+import 'home_icons.dart';
+import 'home_list_horizontal.dart';
 
 class HomeApp extends StatelessWidget {
   final MainModel mainModel;
   final RefreshController refreshController;
-  HomeApp({Key key,this.mainModel, this.refreshController});
+  final RefreshController refreshController1;
+  HomeApp({Key key,this.mainModel, this.refreshController, this.refreshController1});
   
   
   @override
@@ -25,31 +29,46 @@ class HomeApp extends StatelessWidget {
     
     final GlobalKey<ContainerState> _slideKey = GlobalKey<ContainerState>();
     Util.setUIStyle(false);
-     List<Widget> data = [
-          Text('332'),
-          Text('335'), 
-          Text('334'),
-          Text('334'),
-          Text('334'),
-          Text('334'),
-          Text('334'),
-          Text('334'),
-          SpinKitDualRing1(color: Colors.black,)
-          // Container(
-          //   width: MediaQuery.of(context).size.width,
-          //   height: MediaQuery.of(context).size.height - 182.0
-          // )
-        ];
-    Widget _buildHeader(context,mode){
-      print(mode);
-      return mode == 1? SpinKitWave(size: 30.0, color: Colors.black,): Icon(Icons.add_alarm);
+    List<Widget> data = [
+        HomeSwigger(),
+        HomeIcons(),
+        NotificationListener(
+          onNotification: (n) => true,
+          child: HomeListHorizontal(),
+        ),
+        // GestureDetector(
+        //   onTap: () {
+        //     mainModel.isLogin = false;
+        //     main.setData(mainModel);
+
+        //   },
+        //   child: Icon(Icons.games),
+        // )
+        
       
-      // new ClassicIndicator(
+      ];
+    Widget _buildHeader(context,mode){
+      var str;
+      if (mode == 2) {
+        str = SpinKitWave(size: 20.0, color: Colors.black,);
+      }else if(mode == 1) {
+        str = Text('松手刷新');
+      } else if (mode == 3){
+        str = Text('刷新成功');
+      } else if (mode == 4) {
+         str = Text('4');
+      } else {
+        str = Text('下拉刷新');
+      }
+      return str;
+      
+      // return new ClassicIndicator(
       //   mode: mode, 
       //   textStyle: TextStyle(color: Colors.grey),
       //   refreshingText: '刷新',
       //   releaseText: '松手',
       //   idleText: '下拉刷新',
+      //   completeText: '刷新成功',
       // );
     }
     return StreamBuilder(
@@ -76,13 +95,13 @@ class HomeApp extends StatelessWidget {
                         width: MediaQuery.of(context).size.width,
                         height: MediaQuery.of(context).size.height - 92.0,
                         // color: Colors.grey,
-                        child: SmartRefresher(
+                        child: new SmartRefresher(
                           controller: refreshController,
                           enablePullDown: true,
                           enablePullUp: true,
                           headerBuilder: _buildHeader,
                           headerConfig: RefreshConfig(
-                            triggerDistance: 80.0,
+                            triggerDistance: 60.0,
                           ),
                           onRefresh: (ev) {
                             if (ev) {
@@ -120,7 +139,7 @@ class HomeApp extends StatelessWidget {
                           },
                           child: ListView(
                             shrinkWrap: true,
-                            padding: const EdgeInsets.all(20.0),
+                            padding: const EdgeInsets.all(0.0),
                             children: data,
                           )
                     ),

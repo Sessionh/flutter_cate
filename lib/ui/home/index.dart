@@ -16,10 +16,12 @@ class HomeState extends State<Home>
     with TickerProviderStateMixin {
   AnimationController customBoxWaitAnimation;
   RefreshController refreshController;
+  RefreshController refreshController1;
 
   @override
   void initState() {
     refreshController = new RefreshController();
+    refreshController1 = new RefreshController();
     super.initState();
   }
 
@@ -39,6 +41,7 @@ class HomeState extends State<Home>
       child: HomeApp(
         mainModel: widget.mainModel,
         refreshController: refreshController,
+        refreshController1: refreshController1,
       ),
     );
   }

@@ -49,6 +49,7 @@ class SmartRefresher extends StatefulWidget {
   final OnOffsetChange onOffsetChange;
   //controll inner state
   final RefreshController controller;
+  final Axis axis; 
 
   SmartRefresher({
     Key key,
@@ -63,6 +64,7 @@ class SmartRefresher extends StatefulWidget {
     this.enablePullUp: default_enablePullUp,
     this.onRefresh,
     this.onOffsetChange,
+    this.axis: Axis.vertical,
   })  : assert(child != null),
         controller = controller ?? new RefreshController(),this.headerBuilder= headerBuilder ?? ((BuildContext context, int mode){return new ClassicIndicator(mode:mode);}),
         this.footerBuilder= footerBuilder ?? ((BuildContext context, int mode){return new ClassicIndicator(mode:mode);}),
@@ -341,16 +343,13 @@ class _SmartRefresherState extends State<SmartRefresher> {
               left: 0.0,
               right: 0.0,
               child: new NotificationListener(
-                child: 
-                  Scrollbar(
-                    child:  new CustomScrollView(
+                child: new CustomScrollView(
+                    scrollDirection: widget.axis,
                     physics: new RefreshScrollPhysics(enableOverScroll: widget.enableOverScroll),
                     controller: _scrollController,
                     slivers:  slivers,
                     
                   ),
-                ),
-               
                 onNotification: _dispatchScrollEvent,
               )),
         ],
