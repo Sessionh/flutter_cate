@@ -14,6 +14,7 @@ import 'package:app/common/flutter_pulltorefresh/src/internals/indicator_wrap.da
 import 'package:app/common/flutter_pulltorefresh/src/internals/refresh_physics.dart';
 import 'indicator/classic_indicator.dart';
 import 'dart:math' as math;
+import 'package:flutter/cupertino.dart';
 
 enum WrapperType { Refresh, Loading }
 
@@ -50,6 +51,7 @@ class SmartRefresher extends StatefulWidget {
   //controll inner state
   final RefreshController controller;
   final Axis axis; 
+  final bool isScrollbar;
 
   SmartRefresher({
     Key key,
@@ -64,6 +66,7 @@ class SmartRefresher extends StatefulWidget {
     this.enablePullUp: default_enablePullUp,
     this.onRefresh,
     this.onOffsetChange,
+    this.isScrollbar: false,
     this.axis: Axis.vertical,
   })  : assert(child != null),
         controller = controller ?? new RefreshController(),this.headerBuilder= headerBuilder ?? ((BuildContext context, int mode){return new ClassicIndicator(mode:mode);}),
@@ -124,7 +127,10 @@ class _SmartRefresherState extends State<SmartRefresher> {
   }
 
   bool _dispatchScrollEvent(ScrollNotification notification) {
-    
+     // ignore the nested scrollview's notification 
+    if (notification.depth != 0) {
+      return false;
+    }
     // when is scroll in the ScrollInside,nothing to do
     if ((!_isPullUp(notification) && !_isPullDown(notification))) return false;
     if (notification is ScrollStartNotification) {
@@ -233,6 +239,12 @@ class _SmartRefresherState extends State<SmartRefresher> {
               .jumpTo(_scrollController.offset + config.visibleRange);
         }
         break;
+      case 6:
+        if (widget.onRefresh != null) {
+          widget.onRefresh(up);
+        }
+        break;
+       
     }
   }
 
@@ -314,6 +326,31 @@ class _SmartRefresherState extends State<SmartRefresher> {
     widget.controller.scrollController = _scrollController;
     super.didUpdateWidget(oldWidget);
   }
+  Widget setScrollbar(slivers) {
+    if ( widget.isScrollbar) {
+      return CupertinoScrollbar(
+          child:  new CustomScrollView(
+            scrollDirection: widget.axis,
+            physics: new RefreshScrollPhysics(enableOverScroll: widget.enableOverScroll),
+            controller: _scrollController,
+            slivers:  slivers,
+            
+          ),
+        );
+
+    } else {
+      return  CustomScrollView(
+        scrollDirection: widget.axis,
+        physics: new RefreshScrollPhysics(enableOverScroll: widget.enableOverScroll),
+        controller: _scrollController,
+        slivers:  slivers,
+        
+      );
+
+    }
+       
+      
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -343,13 +380,18 @@ class _SmartRefresherState extends State<SmartRefresher> {
               left: 0.0,
               right: 0.0,
               child: new NotificationListener(
-                child: new CustomScrollView(
-                    scrollDirection: widget.axis,
-                    physics: new RefreshScrollPhysics(enableOverScroll: widget.enableOverScroll),
-                    controller: _scrollController,
-                    slivers:  slivers,
+                child: 
+                setScrollbar(slivers),
+               
+                
+                // new CustomScrollView(
+                //     scrollDirection: widget.axis,
+                //     physics: new RefreshScrollPhysics(enableOverScroll: widget.enableOverScroll),
+                //     controller: _scrollController,
+                //     slivers:  slivers,
                     
-                  ),
+                //   ),
+               
                 onNotification: _dispatchScrollEvent,
               )),
         ],

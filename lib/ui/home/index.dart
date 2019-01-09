@@ -7,7 +7,9 @@ import "package:app/common/flutter_pulltorefresh/pull_to_refresh.dart";
 
 class Home extends StatefulWidget {
   final MainModel mainModel;
-  Home({Key key, @required this.mainModel}) : super(key: key);
+  final scaffoldKey;
+  
+  Home({Key key, @required this.mainModel,  this.scaffoldKey}) : super(key: key);
   @override
   HomeState createState() => new HomeState();
 }
@@ -16,12 +18,10 @@ class HomeState extends State<Home>
     with TickerProviderStateMixin {
   AnimationController customBoxWaitAnimation;
   RefreshController refreshController;
-  RefreshController refreshController1;
 
   @override
   void initState() {
     refreshController = new RefreshController();
-    refreshController1 = new RefreshController();
     super.initState();
   }
 
@@ -41,7 +41,7 @@ class HomeState extends State<Home>
       child: HomeApp(
         mainModel: widget.mainModel,
         refreshController: refreshController,
-        refreshController1: refreshController1,
+        scaffoldKey: widget.scaffoldKey,
       ),
     );
   }

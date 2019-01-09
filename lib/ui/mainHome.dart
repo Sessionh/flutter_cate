@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:app/ui/home/index.dart';
+import 'package:app/model/main_model.dart';
 
 
-class Users extends StatefulWidget {
+class MainHome extends StatefulWidget {
+   final MainModel mainModel;
+  MainHome({Key key, @required this.mainModel}) : super(key: key);
   @override
-  State<StatefulWidget> createState() => new MyOSCClientState();
+  State<StatefulWidget> createState() => new MainHomeState();
 }
 
-class MyOSCClientState extends State<Users> {
+class MainHomeState extends State<MainHome> {
   final appBarTitles = ['资讯', '动弹', '发现', '我的'];
   final tabTextStyleSelected = new TextStyle(color: const Color(0xff63ca6c));
   final tabTextStyleNormal = new TextStyle(color: const Color(0xff969696));
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+  
 
   int _tabIndex = 0;
 
@@ -26,7 +32,7 @@ class MyOSCClientState extends State<Users> {
   void initState() {
     super.initState();
     pages = <Widget>[
-      new NewsListPage(),
+      Home(mainModel: widget.mainModel, scaffoldKey: scaffoldKey,),
       new TweetsListPage(),
       new DiscoveryPage(),
       new MyInfoPage()
@@ -78,6 +84,7 @@ class MyOSCClientState extends State<Users> {
       index: _tabIndex,
     );
     return  new Scaffold(
+        key: scaffoldKey,
         body: _body,
         bottomNavigationBar: new CupertinoTabBar(
           items: <BottomNavigationBarItem>[
@@ -99,6 +106,10 @@ class MyOSCClientState extends State<Users> {
             setState((){
               _tabIndex = index;
             });
+           
+              // scaffoldKey.currentState.showSnackBar(new SnackBar(
+              //   content: new Text('33')
+              // ));
           },
         ),
       );
@@ -108,15 +119,30 @@ class MyOSCClientState extends State<Users> {
 class NewsListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height,
-      child: Column(
-        children: <Widget>[
-          Text('33')
-        ],
-      ),
+    return Scaffold(
+      body: 
+      Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: Column(
+          children: <Widget>[
+            Text('33'),
+            Padding(
+              padding: EdgeInsets.only(top: 30.0),
+              child:  GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, 'web');
+
+                },
+                child: Icon(Icons.gesture),
+              ),
+            )
+            
+          ],
+        ),
+      )
     );
+    
   }
 }
 
@@ -128,7 +154,17 @@ class TweetsListPage extends StatelessWidget {
       height: MediaQuery.of(context).size.height,
       child: Column(
         children: <Widget>[
-          Text('44')
+          Text('44'),
+           Padding(
+            padding: EdgeInsets.only(top: 30.0),
+            child:  GestureDetector(
+              onTap: () {
+               Navigator.pushNamed(context, 'homes');
+
+              },
+              child: Icon(Icons.gesture),
+            ),
+          )
         ],
       ),
     );
