@@ -29,7 +29,7 @@ class HomeSwigger extends StatelessWidget {
     ];
     return Container(
       height: 200.0,
-      padding: EdgeInsets.only(top: 0.0),
+      padding: EdgeInsets.only(top: 20.0),
       child:   new Swiper(
         itemBuilder: (BuildContext context,int index){
           return listImage[index];

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import "package:app/common/flutter_pulltorefresh/pull_to_refresh.dart";
+import 'package:after_layout/after_layout.dart';
+import 'package:app/common/pulltorefresh.dart';
 
 class FootDetailData extends StatefulWidget {
   final String name;
@@ -45,7 +47,7 @@ class FootDetailDataApp extends State<FootDetailData> {
                   child:  GestureDetector(
                       child: Icon(IconData(0xe617, fontFamily: 'iconfont'), size: 30.0, color: Colors.white,),
                       onTap: () {
-                        Navigator.of(context).pop();
+                        Navigator.pop(context);
                       },
                   ),
                 ),
@@ -105,25 +107,12 @@ class FootDetailDataApp extends State<FootDetailData> {
                   Column(
                     children: <Widget>[
                       
-                      Container(
-                        width: MediaQuery.of(context).size.width,
+                      Pulltorefresh(
                         height: MediaQuery.of(context).size.height,
-                        // color: Colors.grey,
-                        child: new SmartRefresher(
-                          controller: refreshController,
-                          enablePullDown: false,
-                          enablePullUp: false,
-                          isScrollbar: true,
-                          headerConfig: RefreshConfig(
-                            triggerDistance: 60.0,
-                          ),
-                          child: ListView(
-                            shrinkWrap: true,
-                            padding: const EdgeInsets.all(0.0),
-                            children: data,
-                          )
-                        ),
-                      ),
+                        isFooterShow: false,
+                        isHeaderShow: false,
+                        data: data
+                      )
                       
 
                     ],
@@ -135,43 +124,41 @@ class FootDetailDataApp extends State<FootDetailData> {
         
         );
     
-    // Scaffold(
-    //   body: Container(
-    //     height: MediaQuery.of(context).size.height,
-    //     child: new SmartRefresher(
-    //       controller: refreshController,
-    //       enablePullDown: false,
-    //       enablePullUp: false,
-    //       headerConfig: RefreshConfig(
-    //         triggerDistance: 60.0,
-    //       ),
-    //       child: new ListView(
-    //         // scrollDirection: Axis.horizontal,
-    //         children: <Widget>[
-    //           Container(
-    //             height: 20.0,
-    //             margin: EdgeInsets.only(top: 0.0),
-    //             color: Colors.green,
-    //           )
-              
-            
-
-              
-            
-    //         ],
-    //       )
-    //   ),
-    //   )
-      
-      
-      
-      
-      
-      
-      
-     
-    // );
     
     
   }
 }
+
+// class HomeScreen extends StatefulWidget {
+//   @override
+//   HomeScreenState createState() => new HomeScreenState();
+// }
+
+// class HomeScreenState extends State<HomeScreen> with AfterLayoutMixin<HomeScreen> {
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return new Scaffold(body: new Container(color: Colors.red));
+//   }
+
+//   @override
+//   void afterFirstLayout(BuildContext context) {
+//     // Calling the same function "after layout" to resolve the issue.
+//     showHelloWorld();
+//   }
+
+//   void showHelloWorld() {
+//     showDialog(
+//       context: context,
+//       builder: (context) => new AlertDialog(
+//             content: new Text('Hello World'),
+//             actions: <Widget>[
+//               new FlatButton(
+//                 child: new Text('DISMISS'),
+//                 onPressed: () => Navigator.of(context).pop(),
+//               )
+//             ],
+//           ),
+//     );
+//   }
+// }

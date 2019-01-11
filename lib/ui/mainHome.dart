@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:app/ui/home/index.dart';
 import 'package:app/model/main_model.dart';
+import 'package:app/ui/note/node.dart';
+
 
 
 class MainHome extends StatefulWidget {
@@ -12,7 +14,7 @@ class MainHome extends StatefulWidget {
 }
 
 class MainHomeState extends State<MainHome> {
-  final appBarTitles = ['资讯', '动弹', '发现', '我的'];
+  final appBarTitles = ['首页', '笔记', '发现', '我的'];
   final tabTextStyleSelected = new TextStyle(color: const Color(0xff63ca6c));
   final tabTextStyleNormal = new TextStyle(color: const Color(0xff969696));
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -32,9 +34,9 @@ class MainHomeState extends State<MainHome> {
   void initState() {
     super.initState();
     pages = <Widget>[
-      Home(mainModel: widget.mainModel, scaffoldKey: scaffoldKey,),
+      Home(mainModel: widget.mainModel,),
       new TweetsListPage(),
-      new DiscoveryPage(),
+      new Node(),
       new MyInfoPage()
     ];
     if (tabImages == null) {
@@ -84,7 +86,7 @@ class MainHomeState extends State<MainHome> {
       index: _tabIndex,
     );
     return  new Scaffold(
-        key: scaffoldKey,
+        // key: scaffoldKey,
         body: _body,
         bottomNavigationBar: new CupertinoTabBar(
           items: <BottomNavigationBarItem>[
@@ -159,7 +161,7 @@ class TweetsListPage extends StatelessWidget {
             padding: EdgeInsets.only(top: 30.0),
             child:  GestureDetector(
               onTap: () {
-               Navigator.pushNamed(context, 'homes');
+               Navigator.pushNamed(context, 'web');
 
               },
               child: Icon(Icons.gesture),
@@ -185,6 +187,8 @@ class DiscoveryPage extends StatelessWidget {
     );
   }
 }
+
+
 class MyInfoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

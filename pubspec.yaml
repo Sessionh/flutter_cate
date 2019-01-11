@@ -32,6 +32,8 @@ dependencies:
   flutter_swiper: ^1.1.4
   # 加载图片
   transparent_image: ^0.1.0
+  # 显示第一帧之后，实现执行代码的功能
+  after_layout: ^1.0.7
 
 dev_dependencies:
   flutter_test:

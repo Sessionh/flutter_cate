@@ -7,6 +7,7 @@ import 'package:app/ui/login/index.dart';
 import 'package:app/libs/util.dart';
 import 'package:app/ui/mainHome.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+import 'package:after_layout/after_layout.dart';
 void main() {
   runApp(BlocProvider<MainBloc>(
     bloc: MainBloc(),
@@ -35,7 +36,7 @@ class MyApp extends StatelessWidget {
       ),
        routes: {
         "web": (_) => new WebviewScaffold(
-          url: "https://juejin.im/",
+          url: "https://m.amap.com/",
           appBar: new AppBar(
             title: new Text("Widget webview"),
           ),
@@ -50,10 +51,44 @@ class MyApp extends StatelessWidget {
           ),
           
         ),
-        "homes":(BuildContext context)=>new SecondPage(),
+        "homes":(BuildContext context)=>new HomeScreen(),
         
       },
       
+    );
+  }
+}
+
+class HomeScreen extends StatefulWidget {
+  @override
+  HomeScreenState createState() => new HomeScreenState();
+}
+
+class HomeScreenState extends State<HomeScreen> with AfterLayoutMixin<HomeScreen> {
+
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(body: new Container(color: Colors.red));
+  }
+
+  @override
+  void afterFirstLayout(BuildContext context) {
+    // Calling the same function "after layout" to resolve the issue.
+    showHelloWorld();
+  }
+
+  void showHelloWorld() {
+    showDialog(
+      context: context,
+      builder: (context) => new AlertDialog(
+            content: new Text('Hello World'),
+            actions: <Widget>[
+              new FlatButton(
+                child: new Text('DISMISS'),
+                onPressed: () => Navigator.of(context).pop(),
+              )
+            ],
+          ),
     );
   }
 }
