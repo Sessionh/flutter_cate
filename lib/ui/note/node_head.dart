@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 class NodeHead extends StatefulWidget {
+  final Function result;
+  final bool isThat;
+  NodeHead({Key key, this.result, this.isThat: true});
   NodeHeadState createState() => new NodeHeadState();
 
 }
@@ -55,7 +58,7 @@ class NodeHeadState extends State<NodeHead> with SingleTickerProviderStateMixin 
                           child: Center(
                             child: GestureDetector(
                               onTap: () {
-                                print(222);
+                                widget.result(0);
                                 leftController.reverse();
 
                               },
@@ -66,7 +69,7 @@ class NodeHeadState extends State<NodeHead> with SingleTickerProviderStateMixin 
                                 child: Center(
                                   child: Text('精选',style: TextStyle(
                                   fontSize: 18.0,
-                                  fontWeight: FontWeight.w500,
+                                  fontWeight: widget.isThat ? FontWeight.w600 : FontWeight.w500,
                                 ),
                                 ),
                               )),
@@ -78,7 +81,7 @@ class NodeHeadState extends State<NodeHead> with SingleTickerProviderStateMixin 
                           child: Center(
                             child: GestureDetector(
                               onTap: () {
-                                print(1111);
+                                widget.result(1);
                                 leftController.forward();
 
                               },
@@ -89,7 +92,7 @@ class NodeHeadState extends State<NodeHead> with SingleTickerProviderStateMixin 
                                 child: Center(
                                   child: Text('最新',style: TextStyle(
                                   fontSize: 18.0,
-                                  fontWeight: FontWeight.w500,
+                                  fontWeight: widget.isThat ? FontWeight.w500 : FontWeight.w600,
                                 ),
                                 ),
                               )),

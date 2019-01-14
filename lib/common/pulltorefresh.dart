@@ -12,10 +12,12 @@ class Pulltorefresh extends StatefulWidget{
   final double height;
   final Axis axis; 
   final bool isScrollbar;
+  final RefreshController controller;
   Pulltorefresh({
   Key key, 
   this.headerResult, 
-  this.footerResult, 
+  this.footerResult,
+  this.controller, 
   @required this.data, 
   @required this.height,
   this.isHeaderShow: true,
@@ -32,8 +34,8 @@ class PulltorefreshState extends State<Pulltorefresh> {
   @override
   void initState() {
     refreshController = new RefreshController();
-      super.initState();
-    }
+    super.initState();
+  }
   Widget _buildHeader(context,mode){
       var str;
       if (mode == 2) {
@@ -91,12 +93,13 @@ class PulltorefreshState extends State<Pulltorefresh> {
     }
   @override
   Widget build(BuildContext context) {
+    var cont = widget.controller == null ? refreshController : widget.controller;
     return Container(
       width: MediaQuery.of(context).size.width,
       height: widget.height,
       // color: Colors.grey,
       child: new SmartRefresher(
-        controller: refreshController,
+        controller: cont,
         enablePullDown: widget.isHeaderShow,
         enablePullUp: widget.isFooterShow,
         isScrollbar: widget.isScrollbar,
@@ -112,14 +115,15 @@ class PulltorefreshState extends State<Pulltorefresh> {
             //   refreshController.sendBack(true, 3);
             //   return false;
             // });
-            widget.headerResult(refreshController);
+            widget.headerResult(cont);
+            // cont.scrollTo(-20.0);
 
           } else {
             // Util.setTimeOut(800, () {
             //   refreshController.sendBack(false, 7);
             //   return false;
             // });
-            widget.footerResult(refreshController);
+            widget.footerResult(cont);
           }
 
         },
@@ -127,7 +131,7 @@ class PulltorefreshState extends State<Pulltorefresh> {
         onOffsetChange:  (type, value,{id}) {
             if (!type) {
                 if (value > 10.0) {
-                  refreshController.sendBack(false, 6);
+                  cont.sendBack(false, 6);
                 } 
             }
         

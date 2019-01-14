@@ -14,7 +14,7 @@ class MainHome extends StatefulWidget {
 }
 
 class MainHomeState extends State<MainHome> {
-  final appBarTitles = ['首页', '笔记', '发现', '我的'];
+  final List<String> appBarTitles = ['首页', '笔记', '发现', '我的'];
   final tabTextStyleSelected = new TextStyle(color: const Color(0xff63ca6c));
   final tabTextStyleNormal = new TextStyle(color: const Color(0xff969696));
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -86,7 +86,7 @@ class MainHomeState extends State<MainHome> {
       index: _tabIndex,
     );
     return  new Scaffold(
-        // key: scaffoldKey,
+        key: scaffoldKey,
         body: _body,
         bottomNavigationBar: new CupertinoTabBar(
           items: <BottomNavigationBarItem>[
