@@ -86,51 +86,6 @@ class ShoppingListHorizontalState extends State<ShoppingListHorizontal> {
           ),
 
         ),
-
-        new Container(
-          height: 160.0,
-          width: 180.0,
-          margin: EdgeInsets.only(left: 10.0, top: 10.0),
-          child: Column(
-            children: <Widget>[
-              // Image.network(
-              //   'https://i1.douguo.com/upload/note/c/a/0/320_ca47a5a86abe8cdddf025feddaf2f0a0.jpg',
-              //   height: 100.0,
-              //   width: 180.0,
-              //   fit: BoxFit.fill,
-              // ),
-              GestureDetector(
-                onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (BuildContext context) {
-                    return FootDetail(
-                      name: 'hero',
-                      url: 'https://i1.douguo.com/upload/note/c/a/0/320_ca47a5a86abe8cdddf025feddaf2f0a0.jpg',
-                    );
-                  }));
-                  
-                },
-                child:  Hero(
-                tag: 'hero',
-                  child: Image.network(
-                        'https://i1.douguo.com/upload/note/c/a/0/320_ca47a5a86abe8cdddf025feddaf2f0a0.jpg',
-                        height: 100.0,
-                        width: 180.0,
-                        fit: BoxFit.fill,
-                        ),
-                ),
-              ),
-              
-              Container(
-                padding: EdgeInsets.only(top: 5.0),
-                width: 180.0,
-                child: Text('[进行中]2018年我学会的一道菜'),
-              )
-              
-            ],
-          ),
-
-        ),
            
       ],
           
