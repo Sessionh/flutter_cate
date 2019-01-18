@@ -23,7 +23,10 @@ class HomeState extends State<Home>
 
   @override
   void dispose() {
-    customBoxWaitAnimation.dispose();
+    if (customBoxWaitAnimation != null) {
+      customBoxWaitAnimation.dispose();
+    }
+    
     super.dispose();
   }
 

@@ -51,4 +51,11 @@ class Util{
      
      }
 
+     getHeight(context) {
+       var _that = MediaQuery.of(context);
+      var height =  _that.size.height - _that.padding.bottom - _that.padding.top;
+      return height;
+
+     }
+
 }

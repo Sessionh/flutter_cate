@@ -228,6 +228,7 @@ class _SmartRefresherState extends State<SmartRefresher> {
   }
 
   _didChangeMode(bool up, ValueNotifier<int> mode) {
+    print(11);
     switch (mode.value) {
       case RefreshStatus.refreshing:
         if (widget.onRefresh != null) {

@@ -18,7 +18,11 @@ class MainBloc implements BlocBase {
   }
 
    setData(vm) {
-    MainModel main = new MainModel(isLogin: vm.isLogin, userName: vm.userName);
+    MainModel main = new MainModel(
+      isLogin: vm.isLogin, 
+      userName: vm.userName,
+      tabIndex: vm.tabIndex,
+    );
     _inList.add(main);
   }
 

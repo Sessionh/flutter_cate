@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:app/ui/home/index.dart';
+import 'package:app/bloc/bloc_provider.dart';
+import 'package:app/bloc/main_bloc.dart';
 import 'package:app/model/main_model.dart';
 import 'package:app/ui/note/node.dart';
-
+import 'package:app/ui/user/user.dart';
+import 'package:app/ui/shopping/shopping_city.dart';
+import 'package:app/ui/video/video.dart';
 
 
 class MainHome extends StatefulWidget {
@@ -14,13 +18,13 @@ class MainHome extends StatefulWidget {
 }
 
 class MainHomeState extends State<MainHome> {
-  final List<String> appBarTitles = ['首页', '笔记', '发现', '我的'];
+  final List<String> appBarTitles = ['首页', '课堂', '笔记', '商场', '我的'];
   final tabTextStyleSelected = new TextStyle(color: const Color(0xff63ca6c));
   final tabTextStyleNormal = new TextStyle(color: const Color(0xff969696));
   final scaffoldKey = GlobalKey<ScaffoldState>();
   
 
-  int _tabIndex = 0;
+  // int _tabIndex = 0;
 
   var tabImages;
   var _body;
@@ -34,42 +38,48 @@ class MainHomeState extends State<MainHome> {
   void initState() {
     super.initState();
     pages = <Widget>[
-      Home(mainModel: widget.mainModel,),
-      new TweetsListPage(),
+      new Home(mainModel: widget.mainModel,),
+      new Video(),
       new Node(),
-      new MyInfoPage()
+      new Shopping(),
+      new Users(),
+    
     ];
     if (tabImages == null) {
       tabImages = [
         [
-          getTabImage('images/ic_nav_news_normal.png'),
-          getTabImage('images/ic_nav_news_actived.png')
+          getTabImage('images/home.png'),
+          getTabImage('images/homeS.png')
         ],
         [
-          getTabImage('images/ic_nav_tweet_normal.png'),
-          getTabImage('images/ic_nav_tweet_actived.png')
+          getTabImage('images/video.png'),
+          getTabImage('images/videoS.png')
         ],
         [
-          getTabImage('images/ic_nav_discover_normal.png'),
-          getTabImage('images/ic_nav_discover_actived.png')
+          getTabImage('images/note.png'),
+          getTabImage('images/noteS.png')
         ],
         [
-          getTabImage('images/ic_nav_my_normal.png'),
-          getTabImage('images/ic_nav_my_pressed.png')
-        ]
+          getTabImage('images/shopping.png'),
+          getTabImage('images/shoppingS.png')
+        ],
+        [
+          getTabImage('images/my.png'),
+          getTabImage('images/myS.png')
+        ],
       ];
     }
   }
 
   TextStyle getTabTextStyle(int curIndex) {
-    if (curIndex == _tabIndex) {
+    if (curIndex == widget.mainModel.tabIndex) {
       return tabTextStyleSelected;
     }
     return tabTextStyleNormal;
   }
 
   Image getTabIcon(int curIndex) {
-    if (curIndex == _tabIndex) {
+    if (curIndex == widget.mainModel.tabIndex) {
       return tabImages[curIndex][1];
     }
     return tabImages[curIndex][0];
@@ -81,9 +91,10 @@ class MainHomeState extends State<MainHome> {
 
   @override
   Widget build(BuildContext context) {
+    final MainBloc main = BlocProvider.of<MainBloc>(context);
     _body = new IndexedStack(
       children: pages,
-      index: _tabIndex,
+      index: widget.mainModel.tabIndex,
     );
     return  new Scaffold(
         key: scaffoldKey,
@@ -102,49 +113,17 @@ class MainHomeState extends State<MainHome> {
             new BottomNavigationBarItem(
                 icon: getTabIcon(3),
                 title: getTabTitle(3)),
+             new BottomNavigationBarItem(
+                icon: getTabIcon(4),
+                title: getTabTitle(4)),
           ],
-          currentIndex: _tabIndex,
+          currentIndex: widget.mainModel.tabIndex,
           onTap: (index) {
-            setState((){
-              _tabIndex = index;
-            });
-           
-              // scaffoldKey.currentState.showSnackBar(new SnackBar(
-              //   content: new Text('33')
-              // ));
+            widget.mainModel.tabIndex = index;
+            main.setData(widget.mainModel);
           },
         ),
       );
-  }
-}
-
-class NewsListPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: 
-      Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: Column(
-          children: <Widget>[
-            Text('33'),
-            Padding(
-              padding: EdgeInsets.only(top: 30.0),
-              child:  GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(context, 'web');
-
-                },
-                child: Icon(Icons.gesture),
-              ),
-            )
-            
-          ],
-        ),
-      )
-    );
-    
   }
 }
 
@@ -167,37 +146,6 @@ class TweetsListPage extends StatelessWidget {
               child: Icon(Icons.gesture),
             ),
           )
-        ],
-      ),
-    );
-  }
-}
-
-class DiscoveryPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height,
-      child: Column(
-        children: <Widget>[
-          Text('55')
-        ],
-      ),
-    );
-  }
-}
-
-
-class MyInfoPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height,
-      child: Column(
-        children: <Widget>[
-          Text('66')
         ],
       ),
     );

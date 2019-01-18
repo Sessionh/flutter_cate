@@ -46,7 +46,7 @@ class HomeApp extends StatelessWidget {
               mainModel.isLogin = false;
               main.setData(mainModel);
               //  Navigator.pushNamed(context, 'web');
-              
+            
              
 
             },
@@ -55,7 +55,8 @@ class HomeApp extends StatelessWidget {
         )
       
       ];
-      
+      var _that = MediaQuery.of(context);
+      var height = _that.size.height - _that.padding.top - _that.padding.bottom - 116.0;
     
     return StreamBuilder(
       initialData: HomeModel.initData(),
@@ -63,10 +64,13 @@ class HomeApp extends StatelessWidget {
       builder: (BuildContext context2, AsyncSnapshot<HomeModel> snap){
         var vm = snap.data;
 
-        return Scaffold(
-          body: Container(
+        return Container(
             width: MediaQuery.of(context).size.width,
             height:MediaQuery.of(context).size.height,
+            padding: EdgeInsets.only(
+              top: MediaQuery.of(context).padding.top,
+              bottom: MediaQuery.of(context).padding.bottom
+            ),
             child: Stack(
                   children: <Widget>[
                     Column(
@@ -79,7 +83,7 @@ class HomeApp extends StatelessWidget {
                         ),
                         Pulltorefresh(
                           data: data,
-                          height: MediaQuery.of(context).size.height - 142.0,
+                          height: height,
                           headerResult: (ev) {
                             Util.setTimeOut(800, () {
                               ev.sendBack(true, 3);
@@ -99,9 +103,8 @@ class HomeApp extends StatelessWidget {
 
                   ],
             ),
-        ),
-        
         );
+        
         
 
       },

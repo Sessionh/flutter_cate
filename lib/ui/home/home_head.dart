@@ -4,8 +4,9 @@ class HomeHead extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 35.0),
+      margin: EdgeInsets.only(top: 5.0),
       padding: EdgeInsets.only(bottom: 10.0),
+      height: 60.0,
       child: Row(
         children: <Widget>[
           Container(

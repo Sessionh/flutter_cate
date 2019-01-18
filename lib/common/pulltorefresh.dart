@@ -110,21 +110,20 @@ class PulltorefreshState extends State<Pulltorefresh> {
           triggerDistance: 60.0,
         ),
         onRefresh: (ev) {
-          if (ev) {
-            // Util.setTimeOut(800, () {
-            //   refreshController.sendBack(true, 3);
-            //   return false;
-            // });
-            widget.headerResult(cont);
-            // cont.scrollTo(-20.0);
 
-          } else {
-            // Util.setTimeOut(800, () {
-            //   refreshController.sendBack(false, 7);
-            //   return false;
-            // });
-            widget.footerResult(cont);
-          }
+            if (ev) {
+              if (widget.isHeaderShow) {
+                widget.headerResult(cont);
+              }
+
+            } else {
+              if (widget.isFooterShow) {
+                widget.footerResult(cont);
+              }
+             
+            }
+
+          
 
         },
         
